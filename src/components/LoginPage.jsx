@@ -32,6 +32,10 @@ const LoginPage = () => {
         if (e.key === "Enter") {
             e.preventDefault();
 
+            if(!isLoginDisabled) {
+                setItemInLocalStorage({ key: "username", value: username });
+            }
+
             setIsUsernameValid(!isLoginDisabled);
             setKey(prev => prev + 1);
         }
