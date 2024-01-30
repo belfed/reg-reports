@@ -1,18 +1,23 @@
 import { useState } from "react";
 import styled, { css, keyframes } from "styled-components";
-import { setItemInLocalStorage } from "../data/login-api";
+
+import { useNavigate } from "react-router-dom";
+
+import { setItemInLocalStorage } from "../../data/login-api";
 
 /**
  * LoginPage component for handling user authentication.
  * @component
  * @returns {JSX.Element} Rendered LoginPage component.
  */
-const LoginPage = () => {
+const LoginForm = () => {
     const [username, setUsername] = useState("");
 
     const [key, setKey] = useState(0);
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [isLoginDisabled, setIsLoginDisabled] = useState(true);
+
+    const navigate = useNavigate();
 
     const checkUsername = (username) => /^[a-zA-Z]+[.][a-zA-Z]+$/.test(username);
 
@@ -20,7 +25,7 @@ const LoginPage = () => {
         const { value } = e.target;
         const newUsername = value;
 
-        if(checkUsername(newUsername)) {
+        if (checkUsername(newUsername)) {
             setIsUsernameValid(true);
         }
 
@@ -32,8 +37,9 @@ const LoginPage = () => {
         if (e.key === "Enter") {
             e.preventDefault();
 
-            if(!isLoginDisabled) {
+            if (!isLoginDisabled) {
                 setItemInLocalStorage({ key: "username", value: username });
+                logIn();
             }
 
             setIsUsernameValid(!isLoginDisabled);
@@ -41,7 +47,12 @@ const LoginPage = () => {
         }
     };
 
-    const onClickLoginHandler = () => setItemInLocalStorage({ key: "username", value: username });
+    const onClickLoginHandler = () => {
+        setItemInLocalStorage({ key: "username", value: username });
+        logIn();
+    }
+
+    const logIn = () => navigate("/tickets");
 
     return (
         <Container>
@@ -51,8 +62,8 @@ const LoginPage = () => {
                 onChange={onChangeUsernameHandler}
                 onKeyDown={onKeyDownUsernameHandler}
                 $isValid={isUsernameValid}
-                value={username} 
-                autoFocus/>
+                value={username}
+                autoFocus />
             <Login disabled={isLoginDisabled} onClick={onClickLoginHandler}>Login</Login>
         </Container>
     );
@@ -61,9 +72,10 @@ const LoginPage = () => {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     row-gap: 5px;
 
-    padding: 5px;
+    box-sizing: border-box;
 `;
 
 const Title = styled.h1`
@@ -128,4 +140,4 @@ const Login = styled.button`
     }
 `;
 
-export default LoginPage;
+export default LoginForm;
