@@ -2,29 +2,28 @@ import styled from "styled-components";
 import Ticket from "./Ticket";
 import { useLoaderData } from "react-router-dom";
 
+// Temporary mock data.
 const mockData = [
     {
         id: 53920,
         title: "App Approntamento e Allestimento",
-        customer: "Acciai Vender SpA"
+        customer: "Acciai Vender SpA",
     },
     {
         id: 65101,
         title: "Assistenza Go-Live",
-        customer: "Acciai Vender SpA"
+        customer: "Acciai Vender SpA",
     },
     {
         id: 12345,
         title: "Prefatturazione CAP",
-        customer: "Regesta SpA"
+        customer: "Regesta SpA",
     }
 ]
 
 const TicketsList = () => {
-    /** 
-     * TODO: Remove mock data usage when tickets APIs are up and running again.
-     */
     const tickets = useLoaderData() || mockData;
+    
     return (
         <Container>
             {

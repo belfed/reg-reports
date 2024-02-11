@@ -1,25 +1,43 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+import { useStopwatch } from "react-timer-hook";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 
+import { getTimeString } from "../../utils/time-utils";
+
 const Ticket = ({ ticket }) => {
+    const { hours, minutes, seconds, totalSeconds, isRunning, start, reset } = useStopwatch({ autoStart: false });
+
+    const onStart = () => {
+        start();
+    }
+
+    const onStop = () => {
+        reset(null, false);
+        ticket.elapsedTime = ticket.elapsedTime ? ticket.elapsedTime + totalSeconds : totalSeconds;
+    }
+
+    const onControlClickHandler = () => {
+        isRunning ? onStop() : onStart();
+    }
+
+    const controlIcon = isRunning ? faStop : faPlay;
+
     return (
-        <Container>
+        <Container $isRunning={isRunning}>
             <Infos>
                 <Id>{ticket.id}</Id>
                 <Title>{ticket.title}</Title>
                 <Customer>{ticket.customer}</Customer>
             </Infos>
-            <Activity />
+            <Activity $isRunning={isRunning}/>
             <TimeControls>
-                <Time>00:01:30</Time>
+                <Time>{getTimeString(hours, minutes, seconds)}</Time>
                 <Controls>
-                    <Control>
-                        <FontAwesomeIcon icon={faPlay} />
-                    </Control>
-                    <Control>
-                        <FontAwesomeIcon icon={faStop} />
+                    <Control onClick={onControlClickHandler} $isRunning={isRunning}>
+                        <FontAwesomeIcon icon={controlIcon} />
                     </Control>
                 </Controls>
             </TimeControls>
@@ -40,13 +58,15 @@ const Container = styled.div`
     border-radius: 8px;
 
     background-color: #3B3B3B;
+    background-color: ${props => props.$isRunning ? "var(--primary-dark)" : "#3B3B3B"};
+    transition: background-color 0.1s;
 `;
 
 const Infos = styled.div`
     display: flex;
     flex-direction: column;
 
-    max-width: 20vw;
+    width: 20vw;
 
     line-height: 1.4;
 `;
@@ -59,6 +79,9 @@ const Id = styled.span`
 
 const Title = styled.span`
     font-size: 1em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     color: #CCCCCC;
 `;
 
@@ -83,6 +106,8 @@ const Activity = styled.textarea`
     resize: none;
 
     background-color: #3B3B3B;
+    background-color: ${props => props.$isRunning ? "var(--primary-dark)" : "#3B3B3B"};
+    transition: background-color 0.1s;
 `;
 
 const TimeControls = styled.div`
@@ -104,16 +129,30 @@ const Controls = styled.span`
 `;
 
 const Control = styled.button`
-    width: 30px;
-    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border: none;
+    width: 35px;
+    height: 35px;
+
     border-radius: 50%;
+    border: none;
 
-    line-height: 30px;
+    cursor: pointer;
 
     background-color: var(--primary);
+    background-color: ${props => props.$isRunning ? "#f44336" : "var(--primary)"};
+    transition: background-color 0.1s;
     color: #FFFFFF;
+
+    &:hover {
+        background-color: ${props => props.$isRunning ? "#FF614E" : "var(--primary-light)"};
+    }
+
+    &:active {
+        background-color: ${props => props.$isRunning ? "#D0191D" : "var(--primary-dark)"};
+    }
 `;
 
 export default Ticket;
