@@ -9,19 +9,54 @@ import { useEffect } from "react";
 // Temporary mock data.
 const mockData = [
     {
-        id: 53920,
-        title: "App Approntamento e Allestimento",
-        customer: "Acciai Vender SpA",
+        id: "1",
+        title: "Task 1",
+        customer: "Customer A"
     },
     {
-        id: 65101,
-        title: "Assistenza Go-Live",
-        customer: "Acciai Vender SpA",
+        id: "2",
+        title: "Task 2",
+        customer: "Customer B"
     },
     {
-        id: 12345,
-        title: "Prefatturazione CAP",
-        customer: "Regesta SpA",
+        id: "3",
+        title: "Task 3",
+        customer: "Customer C"
+    },
+    {
+        id: "4",
+        title: "Task 4",
+        customer: "Customer D"
+    },
+    {
+        id: "5",
+        title: "Task 5",
+        customer: "Customer E"
+    },
+    {
+        id: "6",
+        title: "Task 6",
+        customer: "Customer F"
+    },
+    {
+        id: "7",
+        title: "Task 7",
+        customer: "Customer G"
+    },
+    {
+        id: "8",
+        title: "Task 8",
+        customer: "Customer H"
+    },
+    {
+        id: "9",
+        title: "Task 9",
+        customer: "Customer I"
+    },
+    {
+        id: "10",
+        title: "Task 10",
+        customer: "Customer J"
     }
 ]
 
