@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import Ticket from "./Ticket";
 import { useLoaderData } from "react-router-dom";
+
+import { useCompositeStore } from "../../stores/store";
+
+import Ticket from "./Ticket";
+import { useEffect } from "react";
 
 // Temporary mock data.
 const mockData = [
@@ -22,12 +26,15 @@ const mockData = [
 ]
 
 const TicketsList = () => {
-    const tickets = useLoaderData() || mockData;
-    
+    const tickets = useCompositeStore((state) => state.tickets);
+    const setTickets = useCompositeStore((state) => state.setTickets);
+
+    setTickets(tickets.length === 0 ? useLoaderData() || mockData : tickets);
+
     return (
         <Container>
             {
-                tickets.map((ticket) => <Ticket key={ticket.id} ticket={ticket} />)
+                tickets?.map((ticket) => <Ticket key={ticket.id} ticket={ticket} />)
             }
         </Container>
     );

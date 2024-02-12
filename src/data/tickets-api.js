@@ -21,5 +21,5 @@ export const getTicket = async (id) => {
 export const getTickets = async (username) => {
     const response = await axios.get(`${import.meta.env.VITE_TICKETS_URL}&$filter=(substringof('${username}', AssegnatoA) and Status ne 90 and substringof('√', AssegnatoA) eq false)`);
 
-    return response.data.d;
+    return response.data.d.map((ticket) => ({ ...ticket, isRunning: false }));
 };

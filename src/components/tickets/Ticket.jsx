@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 
 import { getTimeString } from "../../utils/time-utils";
+import { useCompositeStore } from "../../stores/store";
 
 const Ticket = ({ ticket }) => {
     const { hours, minutes, seconds, totalSeconds, isRunning, start, reset } = useStopwatch({ autoStart: false });
+    const toggleTicketIsRunning = useCompositeStore((state) => state.toggleTicketIsRunning);
 
     const onStart = () => {
         start();
@@ -21,6 +23,7 @@ const Ticket = ({ ticket }) => {
 
     const onControlClickHandler = () => {
         isRunning ? onStop() : onStart();
+        toggleTicketIsRunning(ticket.id, !isRunning);
     }
 
     const controlIcon = isRunning ? faStop : faPlay;
@@ -32,7 +35,7 @@ const Ticket = ({ ticket }) => {
                 <Title>{ticket.title}</Title>
                 <Customer>{ticket.customer}</Customer>
             </Infos>
-            <Activity $isRunning={isRunning}/>
+            <Activity $isRunning={isRunning} />
             <TimeControls>
                 <Time>{getTimeString(hours, minutes, seconds)}</Time>
                 <Controls>
