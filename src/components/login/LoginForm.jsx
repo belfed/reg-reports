@@ -72,10 +72,10 @@ const LoginForm = () => {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    max-width: 40rem;
     row-gap: 5px;
 
-    box-sizing: border-box;
+    padding: 5px;
 `;
 
 const Title = styled.h1`

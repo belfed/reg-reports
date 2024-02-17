@@ -54,7 +54,6 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 10px;
     padding: 12px 16px;
 
     border: 1px solid #767676;

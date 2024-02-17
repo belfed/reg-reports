@@ -76,15 +76,12 @@ const TicketsList = () => {
 };
 
 const Container = styled.div`
+    margin: auto;
     display: flex;
     flex-direction: column;
+    row-gap: 5px;
 
-    height: 100%;
     width: 100%;
-
-    padding: 5px;
-
-    box-sizing: border-box;
 `;
 
 export default TicketsList;
