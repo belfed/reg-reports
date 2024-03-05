@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { useStopwatch } from "react-timer-hook";
 
@@ -9,152 +9,161 @@ import { getTimeString } from "../../utils/time-utils";
 import { useCompositeStore } from "../../stores/store";
 
 const Ticket = ({ ticket }) => {
-    const { hours, minutes, seconds, totalSeconds, isRunning, start, reset } = useStopwatch({ autoStart: false });
-    const toggleTicketIsRunning = useCompositeStore((state) => state.toggleTicketIsRunning);
+  const { hours, minutes, seconds, totalSeconds, isRunning, start, reset } =
+    useStopwatch({ autoStart: false });
+  const toggleTicketIsRunning = useCompositeStore(
+    (state) => state.toggleTicketIsRunning
+  );
+  const saveTime = useCompositeStore((state) => state.saveTime);
 
-    const onStart = () => {
-        start();
-    }
+  const onStart = () => {
+    start();
+  };
 
-    const onStop = () => {
-        reset(null, false);
-        ticket.elapsedTime = ticket.elapsedTime ? ticket.elapsedTime + totalSeconds : totalSeconds;
-    }
+  const onStop = () => {
+    reset(null, false);
+    saveTime(ticket, ticket.elapsedTime + totalSeconds);
+  };
 
-    const onControlClickHandler = () => {
-        isRunning ? onStop() : onStart();
-        toggleTicketIsRunning(ticket.id, !isRunning);
-    }
+  const onControlClickHandler = () => {
+    isRunning ? onStop() : onStart();
+    toggleTicketIsRunning(ticket.id, !isRunning);
+  };
 
-    const controlIcon = isRunning ? faStop : faPlay;
+  const controlIcon = isRunning ? faStop : faPlay;
 
-    return (
-        <Container $isRunning={isRunning}>
-            <Infos>
-                <Id>{ticket.id}</Id>
-                <Title>{ticket.title}</Title>
-                <Customer>{ticket.customer}</Customer>
-            </Infos>
-            <Activity $isRunning={isRunning} />
-            <TimeControls>
-                <Time>{getTimeString(hours, minutes, seconds)}</Time>
-                <Controls>
-                    <Control onClick={onControlClickHandler} $isRunning={isRunning}>
-                        <FontAwesomeIcon icon={controlIcon} />
-                    </Control>
-                </Controls>
-            </TimeControls>
-        </Container>
-    );
-}
+  return (
+    <Container $isRunning={isRunning}>
+      <Infos>
+        <Id>{ticket.id}</Id>
+        <Title>{ticket.title}</Title>
+        <Customer>{ticket.customer}</Customer>
+      </Infos>
+      <Activity $isRunning={isRunning} />
+      <TimeControls>
+        <Time>{getTimeString(hours, minutes, seconds)}</Time>
+        <Controls>
+          <Control onClick={onControlClickHandler} $isRunning={isRunning}>
+            <FontAwesomeIcon icon={controlIcon} />
+          </Control>
+        </Controls>
+      </TimeControls>
+    </Container>
+  );
+};
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 
-    padding: 12px 16px;
+  padding: 12px 16px;
 
-    border: 1px solid #767676;
-    border-radius: 8px;
+  border: 1px solid #767676;
+  border-radius: 8px;
 
-    background-color: #3B3B3B;
-    background-color: ${props => props.$isRunning ? "var(--primary-dark)" : "#3B3B3B"};
-    transition: background-color 0.1s;
+  background-color: #3b3b3b;
+  background-color: ${(props) =>
+    props.$isRunning ? "var(--primary-dark)" : "#3B3B3B"};
+  transition: background-color 0.1s;
 `;
 
 const Infos = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    width: 20vw;
+  width: 20vw;
 
-    line-height: 1.4;
+  line-height: 1.4;
 `;
 
 const Id = styled.span`
-    font-size: 1.2em;
+  font-size: 1.2em;
 
-    color: var(--primary)
+  color: var(--primary);
 `;
 
 const Title = styled.span`
-    font-size: 1em;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    color: #CCCCCC;
+  font-size: 1em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #cccccc;
 `;
 
 const Customer = styled.span`
-    font-size: 0.8em;
-    color: #777777;
+  font-size: 0.8em;
+  color: #777777;
 `;
 
 const Activity = styled.textarea`
-    flex: 1;
-    margin-left: 20px;
-    margin-right: 20px;
+  flex: 1;
+  margin-left: 20px;
+  margin-right: 20px;
 
-    padding: 6px;
+  padding: 6px;
 
-    font-size: 1em;
-    font-family: inherit;
+  font-size: 1em;
+  font-family: inherit;
 
-    border: 1px solid #767676;
-    border-radius: 2px;
+  border: 1px solid #767676;
+  border-radius: 2px;
 
-    resize: none;
+  resize: none;
 
-    background-color: #3B3B3B;
-    background-color: ${props => props.$isRunning ? "var(--primary-dark)" : "#3B3B3B"};
-    transition: background-color 0.1s;
+  background-color: #3b3b3b;
+  background-color: ${(props) =>
+    props.$isRunning ? "var(--primary-dark)" : "#3B3B3B"};
+  transition: background-color 0.1s;
 `;
 
 const TimeControls = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
 `;
 
 const Time = styled.span`
-    font-size: 1.3em;
-    color: #CCCCCC
+  font-size: 1.3em;
+  color: #cccccc;
 `;
 
 const Controls = styled.span`
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 `;
 
 const Control = styled.button`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 35px;
-    height: 35px;
+  width: 35px;
+  height: 35px;
 
-    border-radius: 50%;
-    border: none;
+  border-radius: 50%;
+  border: none;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    background-color: var(--primary);
-    background-color: ${props => props.$isRunning ? "#f44336" : "var(--primary)"};
-    transition: background-color 0.1s;
-    color: #FFFFFF;
+  background-color: var(--primary);
+  background-color: ${(props) =>
+    props.$isRunning ? "#f44336" : "var(--primary)"};
+  transition: background-color 0.1s;
+  color: #ffffff;
 
-    &:hover {
-        background-color: ${props => props.$isRunning ? "#FF614E" : "var(--primary-light)"};
-    }
+  &:hover {
+    background-color: ${(props) =>
+      props.$isRunning ? "#FF614E" : "var(--primary-light)"};
+  }
 
-    &:active {
-        background-color: ${props => props.$isRunning ? "#D0191D" : "var(--primary-dark)"};
-    }
+  &:active {
+    background-color: ${(props) =>
+      props.$isRunning ? "#D0191D" : "var(--primary-dark)"};
+  }
 `;
 
 export default Ticket;

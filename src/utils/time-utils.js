@@ -1,7 +1,17 @@
-/** Formats a number into a two digit number with leading zeros if less than 9. 
+/** Formats a number into a two digit number with leading zeros if less than 9.
  * @param {Number} number - The number to format.
-*/
+ */
 const pad = (number) => String(number).padStart(2, "0");
+
+/** Returns the current day in the format "dd/mm/yyyy".
+ * @returns {string} The current day.
+ */
+const getCurrentDay = () => {
+  const today = new Date();
+  return `${pad(today.getDate())}/${pad(today.getMonth() + 1)}/${pad(
+    today.getFullYear()
+  )}`;
+};
 
 /**
  * Converts the total number of seconds into an elapsed time string format.
@@ -10,9 +20,7 @@ const pad = (number) => String(number).padStart(2, "0");
  * @returns {string} The elapsed time string in the format 'HH:MM:SS'.
  */
 const getTimeString = (hours, minutes, seconds) => {
-    return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-}
-
-export {
-    getTimeString
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
+
+export { getCurrentDay, getTimeString };

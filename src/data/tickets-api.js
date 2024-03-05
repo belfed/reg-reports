@@ -32,6 +32,8 @@ export const getTickets = async () => {
 
   return response.data.d.map((ticket) => ({
     id: ticket.IDTodoList,
+    customerId: ticket.IDCliente,
+    orderId: ticket.IDCommessa,
     customer: ticket.Cliente,
     title: ticket.Titolo,
     description: "",
