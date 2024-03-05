@@ -1,4 +1,5 @@
 import { buildNewTicketUrl } from "../../utils/string-utils";
+import { getRoundedTime } from "../../utils/time-utils";
 
 const createTicketSlice = (set) => ({
   tickets: [],
@@ -21,6 +22,9 @@ const createTicketSlice = (set) => ({
   collectedTimes: [],
   saveTime: (ticket, elapsedTime) =>
     set((state) => {
+
+      elapsedTime = getRoundedTime(elapsedTime);
+
       const updatedTickets = state.tickets.map((t) =>
         t.id === ticket.id ? { ...ticket, elapsedTime } : t
       );

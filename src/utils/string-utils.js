@@ -28,14 +28,13 @@ const buildNewTicketUrl = (ticket) => {
     },
   ];
 
-  let url = import.meta.env.VITE_NEW_TICKET_URL;
+  let url = import.meta.env.VITE_NEW_REPORT_URL;
 
   for (const param of params) {
-    url = `${url}&${param.key}=${
-      ticket[param.value] || ticket[param.value] === ""
+    url = `${url}&${param.key}=${ticket[param.value] || ticket[param.value] === ""
         ? ticket[param.value]
         : param.value
-    }`;
+      }`;
   }
 
   return url;

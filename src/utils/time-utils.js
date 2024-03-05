@@ -13,6 +13,29 @@ const getCurrentDay = () => {
   )}`;
 };
 
+/** Rounds the given time in seconds to the nearest hour.
+* @param {number} seconds - The time in seconds.
+* @returns {number} The rounded time in hours.
+*/
+const getRoundedTime = (seconds) => {
+  let hours = (seconds / 3600).toFixed(2);
+  const decimals = hours - Math.floor(hours);
+
+  if (decimals > 0 && decimals <= 0.25) {
+    return Math.floor(hours);
+  }
+
+  if ((decimals > 0.25 && decimals <= 0.5) || (decimals > 0.5 && decimals <= 0.75)) {
+    return Math.floor(hours) + 0.5;
+  }
+
+  if (decimals > 0.75) {
+    return Math.floor(hours) + 1;
+  }
+
+  return hours;
+}
+
 /**
  * Converts the total number of seconds into an elapsed time string format.
  *
@@ -23,4 +46,4 @@ const getTimeString = (hours, minutes, seconds) => {
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
 
-export { getCurrentDay, getTimeString };
+export { getCurrentDay, getRoundedTime, getTimeString };
