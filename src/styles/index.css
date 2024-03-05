@@ -1,30 +1,27 @@
 :root {
-    --primary: #1976d2;
-    --primary-dark: #0f4c8b;
-    --primary-light: #6BAAFF;
+  --primary: #1976d2;
+  --primary-dark: #0f4c8b;
+  --primary-light: #6baaff;
 
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    color-scheme: dark;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-height: 100lvh;
+html {
+  width: 100lvw;
+  height: 100lvh;
 }
 
+body,
 #root {
-    display: flex;
-    justify-content: center;
-
-    margin: 0 auto;
-    padding: 2rem;
-
-    width: 100%;
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 100lvw;
+  min-height: 100lvh;
 }
