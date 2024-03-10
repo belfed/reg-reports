@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getItemFromLocalStorage } from "./login-api";
 
 /**
  * Asynchronously retrieves a single ticket based on the provided ID.
@@ -22,22 +21,26 @@ export const getTicket = async (id) => {
  * @returns {Promise<object>} A promise that resolves to the ticket data.
  */
 export const getTickets = async () => {
-  const response = await axios.get(
-    `${
-      import.meta.env.VITE_TICKETS_URL
-    }&$filter=(substringof('${getItemFromLocalStorage(
-      "username"
-    )}', AssegnatoA) and Status ne 90 and substringof('√', AssegnatoA) eq false)`
-  );
-
-  return response.data.d.map((ticket) => ({
-    id: ticket.IDTodoList,
-    customerId: ticket.IDCliente,
-    orderId: ticket.IDCommessa,
-    customer: ticket.Cliente,
-    title: ticket.Titolo,
-    description: "",
-    elapsedTime: 0,
-    isRunning: false,
-  }));
+  let response;
+  try {
+    response = await axios.get(
+      `${import.meta.env.VITE_TICKETS_URL
+      }&$filter=(substringof('${getItemFromLocalStorage(
+        "username"
+      )}', AssegnatoA) and Status ne 90 and substringof('√', AssegnatoA) eq false)`
+    );
+  } catch (error) {
+    response = await axios.get("http://localhost:3000/tickets");
+  } finally {
+    return response.data.d.map((ticket) => ({
+      id: ticket.IDTodoList || ticket.id,
+      customerId: ticket.IDCliente || ticket.customerId,
+      orderId: ticket.IDCommessa || ticket.orderId,
+      customer: ticket.Cliente || ticket.customer,
+      title: ticket.Titolo || ticket.title,
+      description: "",
+      elapsedTime: 0,
+      isRunning: false,
+    }));
+  }
 };

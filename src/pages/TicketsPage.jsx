@@ -6,7 +6,11 @@ import TicketsList from "../components/tickets/TicketsList";
 const TicketsPage = () => {
     const isLoggedIn = getItemFromLocalStorage("username");
 
-    return isLoggedIn ? <TicketsList /> : <Navigate replace to="/login" />
+    if (!isLoggedIn) {
+        return <Navigate replace to="/login" />
+    }
+
+    return <TicketsList />;
 }
 
 export default TicketsPage;

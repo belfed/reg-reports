@@ -32,6 +32,7 @@ const createTicketSlice = (set) => ({
       const newTime = {
         id: ticket.id,
         title: ticket.title,
+        description: ticket.description,
         elapsedTime,
         url: buildNewTicketUrl(ticket),
       };

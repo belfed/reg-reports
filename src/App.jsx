@@ -8,6 +8,7 @@ import TicketsPage from "./pages/TicketsPage";
 const router = createBrowserRouter([
   {
     path: "/",
+    loader: getTickets,
     element: <TicketsPage />,
   },
   {

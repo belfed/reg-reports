@@ -7,6 +7,7 @@ import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 
 import { getTimeString } from "../../utils/time-utils";
 import { useCompositeStore } from "../../stores/store";
+import { useState } from "react";
 
 const Ticket = ({ ticket }) => {
   const { hours, minutes, seconds, totalSeconds, isRunning, start, reset } =
@@ -16,12 +17,19 @@ const Ticket = ({ ticket }) => {
   );
   const saveTime = useCompositeStore((state) => state.saveTime);
 
+  const [description, setDescription] = useState("");
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  }
+
   const onStart = () => {
     start();
   };
 
   const onStop = () => {
     reset(null, false);
+    ticket.description = description;
     saveTime(ticket, ticket.elapsedTime + totalSeconds);
   };
 
@@ -39,7 +47,7 @@ const Ticket = ({ ticket }) => {
         <Title>{ticket.title}</Title>
         <Customer>{ticket.customer}</Customer>
       </Infos>
-      <Activity $isRunning={isRunning} />
+      <Activity $isRunning={isRunning} value={description} onChange={handleDescriptionChange} />
       <TimeControls>
         <Time>{getTimeString(hours, minutes, seconds)}</Time>
         <Controls>
@@ -56,7 +64,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
 
   padding: 12px 16px;
 
@@ -131,7 +138,7 @@ const Time = styled.span`
   color: #cccccc;
 `;
 
-const Controls = styled.span`
+const Controls = styled.div`
   display: flex;
   gap: 8px;
 `;
@@ -157,12 +164,12 @@ const Control = styled.button`
 
   &:hover {
     background-color: ${(props) =>
-      props.$isRunning ? "#FF614E" : "var(--primary-light)"};
+    props.$isRunning ? "#FF614E" : "var(--primary-light)"};
   }
 
   &:active {
     background-color: ${(props) =>
-      props.$isRunning ? "#D0191D" : "var(--primary-dark)"};
+    props.$isRunning ? "#D0191D" : "var(--primary-dark)"};
   }
 `;
 

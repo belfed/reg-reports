@@ -33,7 +33,7 @@ const getRoundedTime = (seconds) => {
     return Math.floor(hours) + 1;
   }
 
-  return hours;
+  return Number(hours);
 }
 
 /**
